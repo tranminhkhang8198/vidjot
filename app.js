@@ -31,6 +31,11 @@ app.get('/', (req, res) => {
     });
 });
 
+// Add Idea Form
+app.get('/ideas/add', (req, res) => {
+    res.render('ideas/add');
+});
+
 // About route
 app.get('/about', (req, res) => {
     res.render('about');
