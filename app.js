@@ -13,6 +13,10 @@ mongoose.connect('mongodb://localhost/vidjot-dev', {
     .then(() => console.log('MongoDB Connected...'))
     .catch((e) => console.log(e));
 
+// Load Idea Model
+require('./models/Idea');
+const Idea = mongoose.model('ideas');
+
 // Handlebars Middleware
 app.engine('handlebars', exphbs({
     defaultLayout: 'main'
