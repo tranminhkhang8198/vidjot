@@ -28,12 +28,28 @@ app.set('view engine', 'handlebars');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// Index route
+// Index Route
 app.get('/', (req, res) => {
     const title = 'Welcome';
     res.render('index', {
         title: title
     });
+});
+
+// About Route
+app.get('/about', (req, res) => {
+    res.render('about');
+});
+
+// Idea Index Page
+app.get('/ideas', (req, res) => {
+    Idea.find({})
+        .sort({ data: 'desc' })
+        .then((ideas) => {
+            res.render('ideas/index', {
+                ideas
+            });
+        });
 });
 
 // Add Idea Form
@@ -70,12 +86,6 @@ app.post('/ideas', (req, res) => {
                 res.redirect('/ideas');
             });
     }
-});
-
-
-// About route
-app.get('/about', (req, res) => {
-    res.render('about');
 });
 
 const port = 5000;
