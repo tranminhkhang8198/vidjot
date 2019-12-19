@@ -6,13 +6,16 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-
+const passport = require('passport');
 
 const app = express();
 
 // Load routers
 const ideas = require('./routers/ideas');
 const users = require('./routers/users');
+
+// Passport Config
+require('./config/passport')(passport);
 
 // Connect to mongoose
 mongoose.connect('mongodb://localhost/vidjot-dev', {
@@ -47,6 +50,10 @@ app.use(session({
     saveUninitialized: true
 }));
 
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(flash());
 
 // Global variables
@@ -54,6 +61,7 @@ app.use(function (req, res, next) {
     res.locals.success_msg = req.flash('success_msg');
     res.locals.error_msg = req.flash('error_msg');
     res.locals.error = req.flash('error');
+    res.locals.user = req.user || null;
     next();
 });
 
